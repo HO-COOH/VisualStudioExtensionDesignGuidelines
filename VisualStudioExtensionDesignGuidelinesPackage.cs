@@ -55,6 +55,8 @@ namespace VisualStudioExtensionDesignGuidelines
             {
                 Content = new MainFrame()
             }.Show();
+
+            new System.Windows.Window { Content = new ColorContrastChecker() }.Show();
         }
 
         #endregion

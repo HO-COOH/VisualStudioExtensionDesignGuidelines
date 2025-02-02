@@ -1,0 +1,241 @@
+﻿<UserControl x:Class="VisualStudioExtensionDesignGuidelines.ColorContrastChecker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:VisualStudioExtensionDesignGuidelines"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <Style TargetType="TextBlock" x:Key="ColorNameTextStyle">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="20"/>
+        </Style>
+
+        <Style TargetType="Rectangle" x:Key="ColorPresenterStyle">
+            <Setter Property="RadiusX" Value="4"/>
+            <Setter Property="RadiusY" Value="4"/>
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Height" Value="30"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="ColorContrastTypeNameTextStyle">
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Color x:Key="CheckGlyphColor">#00ff00</Color>
+        <sys:String x:Key="CheckStatusText">Pass</sys:String>
+        
+        <Color x:Key="FailGlyphColor">#ff0000</Color>
+        <sys:String x:Key="FailStatusText">Failed</sys:String>
+
+        <sys:Double x:Key="GlyphWidth">16</sys:Double>
+        <sys:Double x:Key="GlyphHeight">16</sys:Double>
+        
+        <Geometry x:Key="FailGlyph">M939,896C939,902 937.833,907.583 935.5,912.75C933.167,917.917 930,922.417 926,926.25C922,930.083 917.417,933.083 912.25,935.25C907.083,937.417 901.667,938.5 896,938.5C884.333,938.5 874.333,934.333 866,926L512,572L158,926C149.667,934.333 139.667,938.5 128,938.5C116.333,938.5 106.333,934.333 98,926C89.6667,917.667 85.5,907.667 85.5,896C85.5,884.333 89.6667,874.333 98,866L452,512L96,156.5C87.6667,148.167 83.5,138.167 83.5,126.5C83.5,114.833 87.5833,104.75 95.75,96.25C103.917,87.7501 114,83.5001 126,83.5C138,83.5001 148.167,87.6667 156.5,96L512,451.5L866,97.5C874.333,89.1667 884.333,85.0001 896,85C902,85.0001 907.583,86.1667 912.75,88.5C917.917,90.8334 922.417,93.9167 926.25,97.75C930.083,101.583 933.167,106.083 935.5,111.25C937.833,116.417 939,122 939,128C939,139.333 934.667,149.333 926,158L572,512L926,866C930.333,870.333 933.583,874.833 935.75,879.5C937.917,884.167 939,889.667 939,896Z</Geometry>
+        <Geometry x:Key="CheckGlyph">M128,544C128,535.333 131.167,527.833 137.5,521.5C143.833,515.167 151.333,512 160,512C168.667,512 176.167,515.167 182.5,521.5L384,722.5L841.5,265.5C847.833,259.167 855.333,256 864,256C872.667,256 880.167,259.167 886.5,265.5C892.833,271.833 896,279.333 896,288C896,296.667 892.833,304.167 886.5,310.5L406.5,790.5C400.167,796.833 392.667,800 384,800C375.333,800 367.833,796.833 361.5,790.5L137.5,566.5C131.167,560.167 128,552.667 128,544Z</Geometry>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Text color" Style="{StaticResource ColorNameTextStyle}"/>
+            <TextBlock Text="Background color" Style="{StaticResource ColorNameTextStyle}" Grid.Column="1"/>
+            <TextBlock Text="Contrast ratio" Style="{StaticResource ColorNameTextStyle}" Grid.Column="2"/>
+
+            <Rectangle x:Name="Color1" Grid.Row="1" Style="{StaticResource ColorPresenterStyle}"/>
+            <Rectangle x:Name="Color2" Grid.Row="1" Grid.Column="1" Style="{StaticResource ColorPresenterStyle}"/>
+            <TextBlock x:Name="ColorContrastRatioText" Grid.Row="1" Grid.Column="2"/>
+           
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!--Normal Text -->
+                <Ellipse x:Name="NormalTextCheckEllipse" Width="30" Height="30" Loaded="NormalTextCheckEllipse_Loaded"/>
+                <Grid Width="{StaticResource GlyphWidth}" Height="{StaticResource GlyphHeight}">
+                    <Path Stretch="Fill" StrokeThickness="1"/>
+                </Grid>
+                <TextBlock x:Name="NormalTextCheckStateText" Grid.Column="1"/>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Style="{StaticResource ColorContrastTypeNameTextStyle}" Text="Regular text"/>
+                    <TextBlock Text="Requries at least 4.5:1"/>
+                </StackPanel>
+                
+                <!--Large text -->
+                <Ellipse x:Name="LargeTextCheckEllipse" Grid.Row="1"/>
+                <Grid Width="{StaticResource GlyphWidth}" Height="{StaticResource GlyphHeight}">
+                    
+                </Grid>
+                <TextBlock x:Name="LargeTextCheckStateText" Grid.Column="1" Grid.Row="1"/>
+                <StackPanel Grid.Row="1" Grid.Column="2">
+                    <TextBlock Style="{StaticResource ColorContrastTypeNameTextStyle}" Text="Large text (14 pt. bold or 18pt. regular)"/>
+                    <TextBlock Text="Requires at least 3:1"/>
+                </StackPanel>
+                
+                
+                <!--Graphical objects and UI components-->
+                <Ellipse x:Name="GraphicalObjectCheckEllipse" Grid.Row="2"/>
+                <TextBlock x:Name="GraphicalObjectCheckStateText" Grid.Row="2" Grid.Column="1"/>
+                <StackPanel Grid.Row="2" Grid.Column="2">
+                    <TextBlock Style="{StaticResource ColorContrastTypeNameTextStyle}" Text="Graphical objects and UI components"/>
+                    <TextBlock Text="Requires at least 3:1"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="NormalTextState">
+                <VisualState x:Name="NormalTextCheckPassState">
+                    <VisualState.Storyboard>
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalTextCheckEllipse"
+                                                           Storyboard.TargetProperty="Fill">
+                                <DiscreteObjectKeyFrame>
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <SolidColorBrush Color="{StaticResource CheckGlyphColor}"/>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalTextCheckStateText"
+                                                           Storyboard.TargetProperty="Text">
+                                <DiscreteObjectKeyFrame Value="{StaticResource CheckStatusText}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState.Storyboard>
+                </VisualState>
+                <VisualState x:Name="NormalTextCheckFailState">
+                    <VisualState.Storyboard>
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalTextCheckEllipse"
+                                                           Storyboard.TargetProperty="Fill">
+                                <DiscreteObjectKeyFrame>
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <SolidColorBrush Color="{StaticResource FailGlyphColor}"/>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalTextCheckEllipse"
+                                                           Storyboard.TargetProperty="Fill">
+                                <DiscreteObjectKeyFrame Value="{StaticResource FailStatusText}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState.Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+
+            <VisualStateGroup x:Name="LargeTextState">
+                <VisualState x:Name="LargeTextCheckPassState">
+                    <VisualState.Storyboard>
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LargeTextCheckEllipse"
+                                               Storyboard.TargetProperty="Fill">
+                                <DiscreteObjectKeyFrame>
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <SolidColorBrush Color="{StaticResource CheckGlyphColor}"/>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LargeTextCheckStateText"
+                                               Storyboard.TargetProperty="Text">
+                                <DiscreteObjectKeyFrame Value="{StaticResource CheckStatusText}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState.Storyboard>
+                </VisualState>
+                <VisualState x:Name="LargeTextCheckFailState">
+                    <VisualState.Storyboard>
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LargeTextCheckEllipse"
+                                               Storyboard.TargetProperty="Fill">
+                                <DiscreteObjectKeyFrame>
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <SolidColorBrush Color="{StaticResource FailGlyphColor}"/>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LargeTextCheckEllipse"
+                                               Storyboard.TargetProperty="Fill">
+                                <DiscreteObjectKeyFrame Value="{StaticResource FailStatusText}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState.Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+
+            <VisualStateGroup x:Name="GraphicalObjectState">
+                <VisualState x:Name="GraphicalObjectCheckPassState">
+                    <VisualState.Storyboard>
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GraphicalObjectCheckEllipse"
+                                               Storyboard.TargetProperty="Fill">
+                                <DiscreteObjectKeyFrame>
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <SolidColorBrush Color="{StaticResource CheckGlyphColor}"/>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GraphicalObjectCheckStateText"
+                                               Storyboard.TargetProperty="Text">
+                                <DiscreteObjectKeyFrame Value="{StaticResource CheckStatusText}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState.Storyboard>
+                </VisualState>
+                <VisualState x:Name="GraphicalObjectCheckFailState">
+                    <VisualState.Storyboard>
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GraphicalObjectCheckEllipse"
+                                               Storyboard.TargetProperty="Fill">
+                                <DiscreteObjectKeyFrame>
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <SolidColorBrush Color="{StaticResource FailGlyphColor}"/>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GraphicalObjectCheckEllipse"
+                                               Storyboard.TargetProperty="Fill">
+                                <DiscreteObjectKeyFrame Value="{StaticResource FailStatusText}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState.Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+    
+</UserControl>

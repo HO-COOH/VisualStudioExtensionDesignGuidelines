@@ -24,5 +24,15 @@ namespace VisualStudioExtensionDesignGuidelines
         {
             InitializeComponent();
         }
+
+        public void SetTextColor(string colorKey)
+        {
+            ContrastChecker.ColorKey1 = colorKey;
+        }
+
+        public void SetBackgroundColor(string colorKey)
+        {
+            ContrastChecker.ColorKey2 = colorKey;
+        }
     }
 }
