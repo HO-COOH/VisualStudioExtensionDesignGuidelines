@@ -19,6 +19,7 @@
             <Setter Property="RadiusY" Value="4"/>
             <Setter Property="Width" Value="30"/>
             <Setter Property="Height" Value="30"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
         </Style>
 
         <Style TargetType="TextBlock" x:Key="ColorContrastTypeNameTextStyle">
@@ -33,17 +34,20 @@
 
         <sys:Double x:Key="GlyphWidth">16</sys:Double>
         <sys:Double x:Key="GlyphHeight">16</sys:Double>
-        
+
         <Geometry x:Key="FailGlyph">M939,896C939,902 937.833,907.583 935.5,912.75C933.167,917.917 930,922.417 926,926.25C922,930.083 917.417,933.083 912.25,935.25C907.083,937.417 901.667,938.5 896,938.5C884.333,938.5 874.333,934.333 866,926L512,572L158,926C149.667,934.333 139.667,938.5 128,938.5C116.333,938.5 106.333,934.333 98,926C89.6667,917.667 85.5,907.667 85.5,896C85.5,884.333 89.6667,874.333 98,866L452,512L96,156.5C87.6667,148.167 83.5,138.167 83.5,126.5C83.5,114.833 87.5833,104.75 95.75,96.25C103.917,87.7501 114,83.5001 126,83.5C138,83.5001 148.167,87.6667 156.5,96L512,451.5L866,97.5C874.333,89.1667 884.333,85.0001 896,85C902,85.0001 907.583,86.1667 912.75,88.5C917.917,90.8334 922.417,93.9167 926.25,97.75C930.083,101.583 933.167,106.083 935.5,111.25C937.833,116.417 939,122 939,128C939,139.333 934.667,149.333 926,158L572,512L926,866C930.333,870.333 933.583,874.833 935.75,879.5C937.917,884.167 939,889.667 939,896Z</Geometry>
         <Geometry x:Key="CheckGlyph">M128,544C128,535.333 131.167,527.833 137.5,521.5C143.833,515.167 151.333,512 160,512C168.667,512 176.167,515.167 182.5,521.5L384,722.5L841.5,265.5C847.833,259.167 855.333,256 864,256C872.667,256 880.167,259.167 886.5,265.5C892.833,271.833 896,279.333 896,288C896,296.667 892.833,304.167 886.5,310.5L406.5,790.5C400.167,796.833 392.667,800 384,800C375.333,800 367.833,796.833 361.5,790.5L137.5,566.5C131.167,560.167 128,552.667 128,544Z</Geometry>
+
+        <sys:String x:Key="PreviewText">The quick brown fox jumped over the lazy fox.</sys:String>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <!-- Header -->
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -66,7 +70,9 @@
            
         </Grid>
 
-        <Grid Grid.Row="1">
+        
+        <!-- Indicator and preview -->
+        <Grid Grid.Row="1" HorizontalAlignment="Left">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -116,6 +122,43 @@
                     <TextBlock Text="Requires at least 3:1"/>
                 </StackPanel>
             </Grid>
+
+            <Grid Grid.Column="1" Background="{Binding Fill, ElementName=Color2, Mode=OneWay}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Preview Text-->
+                <TextBlock Text="{StaticResource PreviewText}" Foreground="{Binding Fill, ElementName=Color1, Mode=OneWay}"/>
+                <StackPanel Grid.Row="1">
+                    <TextBlock FontSize="14" FontWeight="Bold" Foreground="{Binding Fill, ElementName=Color1, Mode=OneWay}" Text="{StaticResource PreviewText}"/>
+                    <TextBlock FontSize="18" Foreground="{Binding Fill, ElementName=Color1, Mode=OneWay}" Text="{StaticResource PreviewText}"/>
+                </StackPanel>
+                
+                <!--Preview controls -->
+                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <Grid>
+                        <Rectangle Width="30" Height="30" Fill="{Binding Fill, ElementName=Color1, Mode=OneWay}" RadiusX="4" RadiusY="4"/>
+                        <Grid Width="16" Height="16">
+                            <Path Data="M128,544C128,535.333 131.167,527.833 137.5,521.5C143.833,515.167 151.333,512 160,512C168.667,512 176.167,515.167 182.5,521.5L384,722.5L841.5,265.5C847.833,259.167 855.333,256 864,256C872.667,256 880.167,259.167 886.5,265.5C892.833,271.833 896,279.333 896,288C896,296.667 892.833,304.167 886.5,310.5L406.5,790.5C400.167,796.833 392.667,800 384,800C375.333,800 367.833,796.833 361.5,790.5L137.5,566.5C131.167,560.167 128,552.667 128,544Z"
+                                  Fill="Transparent" Stroke="White" StrokeThickness="1" Stretch="Uniform">
+                            </Path>
+                        </Grid>
+                    </Grid>
+
+                    <Grid>
+                        <Rectangle Width="50" Height="30" Fill="{Binding Fill, ElementName=Color1, Mode=OneWay}" RadiusX="15" RadiusY="50"/>
+                        <Ellipse Width="15" Height="15" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Fill="White"/>
+                    </Grid>
+
+                    <Grid Width="20" Height="20">
+                        <Path Data="M216,1000C207.333,1000 199.833,996.75 193.5,990.25C187.167,983.75 184,976.167 184,967.5C184,965.167 184.167,963.333 184.5,962L238,649L10.5,427.5C4.16667,421.167 1,413.667 1,405C1,397.333 3.66667,390.333 9,384C14.3333,377.667 20.8333,373.833 28.5,372.5L342.5,327L483.5,42C486.167,36.6667 490.083,32.4167 495.25,29.25C500.417,26.0834 505.833,24.5 511.5,24.5C517.5,24.5 523.167,26 528.5,29C533.833,32 537.833,36.3334 540.5,42L681.5,327L995.5,372.5C1003.5,373.833 1010.08,377.5 1015.25,383.5C1020.42,389.5 1023,396.5 1023,404.5C1023,413.833 1019.83,421.5 1013.5,427.5L786,649L839.5,962C839.833,963.333 840,965.167 840,967.5C840,976.167 836.833,983.667 830.5,990C824.167,996.333 816.667,999.5 808,999.5C802.333,999.5 797.333,998.333 793,996L512,848L231,996C226.333,998.667 221.333,1000 216,1000Z"
+                              Fill="{Binding Fill, ElementName=Color1, Mode=OneWay}" Stroke="{Binding Fill, ElementName=Color1, Mode=OneWay}" StrokeThickness="1" Stretch="Uniform"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
         </Grid>
 
         <VisualStateManager.VisualStateGroups>
@@ -149,8 +192,8 @@
                                     </DiscreteObjectKeyFrame.Value>
                                 </DiscreteObjectKeyFrame>
                             </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalTextCheckEllipse"
-                                                           Storyboard.TargetProperty="Fill">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalTextCheckStateText"
+                                                           Storyboard.TargetProperty="Text">
                                 <DiscreteObjectKeyFrame Value="{StaticResource FailStatusText}"/>
                             </ObjectAnimationUsingKeyFrames>
                         </Storyboard>
@@ -188,8 +231,8 @@
                                     </DiscreteObjectKeyFrame.Value>
                                 </DiscreteObjectKeyFrame>
                             </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LargeTextCheckEllipse"
-                                               Storyboard.TargetProperty="Fill">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LargeTextCheckStateText"
+                                               Storyboard.TargetProperty="Text">
                                 <DiscreteObjectKeyFrame Value="{StaticResource FailStatusText}"/>
                             </ObjectAnimationUsingKeyFrames>
                         </Storyboard>
@@ -227,8 +270,8 @@
                                     </DiscreteObjectKeyFrame.Value>
                                 </DiscreteObjectKeyFrame>
                             </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GraphicalObjectCheckEllipse"
-                                               Storyboard.TargetProperty="Fill">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GraphicalObjectCheckStateText"
+                                               Storyboard.TargetProperty="Text">
                                 <DiscreteObjectKeyFrame Value="{StaticResource FailStatusText}"/>
                             </ObjectAnimationUsingKeyFrames>
                         </Storyboard>

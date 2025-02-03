@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.VisualStudio.PlatformUI;
+using static Microsoft.VisualStudio.Shell.RegistrationAttribute;
 
 namespace VisualStudioExtensionDesignGuidelines
 {
@@ -35,6 +36,9 @@ namespace VisualStudioExtensionDesignGuidelines
 
         void updateCheckState()
         {
+            if (!(Color1.Fill is SolidColorBrush) || !(Color2.Fill is SolidColorBrush))
+                return;
+
             var color1 = Application.Current.FindResource(ColorKey1) as SolidColorBrush;
             var color2 = Application.Current.FindResource(ColorKey2) as SolidColorBrush;
             var ratio = ColorContrast.CalculateContrastRatio(color1.Color, color2.Color);
@@ -65,7 +69,8 @@ namespace VisualStudioExtensionDesignGuidelines
             set
             {
                 m_colorKey1 = value;
-
+                Color1.SetResourceReference(Shape.FillProperty, value);
+                updateCheckState();
             }
         }
 
@@ -74,7 +79,9 @@ namespace VisualStudioExtensionDesignGuidelines
             get => m_colorKey2;
             set
             {
-
+                m_colorKey2 = value;
+                Color2.SetResourceReference(Shape.FillProperty, value);
+                updateCheckState();
             }
         }
 

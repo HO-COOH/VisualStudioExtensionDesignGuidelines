@@ -28,11 +28,13 @@ namespace VisualStudioExtensionDesignGuidelines
         public void SetTextColor(string colorKey)
         {
             ContrastChecker.ColorKey1 = colorKey;
+            ContrastChecker.Visibility = Visibility.Visible;
         }
 
         public void SetBackgroundColor(string colorKey)
         {
             ContrastChecker.ColorKey2 = colorKey;
+            ContrastChecker.Visibility = Visibility.Visible;
         }
     }
 }

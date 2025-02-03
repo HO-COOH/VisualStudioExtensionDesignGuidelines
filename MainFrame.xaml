@@ -11,7 +11,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <ListView>
@@ -589,7 +589,7 @@
 
         </ListView>
 
-        <local:ColorContrastChecker x:Name="ContrastChecker" Grid.Row="1"/>
+        <local:ColorContrastChecker x:Name="ContrastChecker" Grid.Row="1" Visibility="Collapsed" MinHeight="200"/>
     </Grid>
 
 </UserControl>
